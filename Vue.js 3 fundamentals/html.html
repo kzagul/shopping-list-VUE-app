@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping List App</title>
+    <link rel="stylesheet" href="css.css">
+</head>
+<body>
+    <div id="shopping-list">
+        <div class="header">
+            <h1>{{header.toUpperCase() || "Welcome"}}</h1>
+            <button v-if="editing" @click="doEdit(false)" class="btn btn-cancel">Cancel</button>
+            <button v-else @click="doEdit(true)" class="btn btn-primry">Add item</button>
+        </div>
+
+        <div v-if="editing" class="add-item-form">
+            <input 
+                @keyup.enter="saveItem()" 
+                type="text" 
+                v-model.trim="newItem" 
+                placeholder="Add an Item">
+
+            <p class="counter">{{characterCount}}</p>
+            <!-- {{newItem}} -->
+            <label>
+                <input 
+                    type="checkbox" 
+                    v-model="newItemHighPriority">
+                High Priority
+            </label>
+            <button 
+                v-bind:disabled="newItem.length === 0"
+                @click="saveItem()" 
+                class="btn btn-primary">
+                Save Item
+            </button>
+        </div>
+
+        <!-- <a v-bind:href="newItem"></a> -->
+        <p v-if="items.length === 0">Nice job, all products are bought!</p>
+
+
+
+        <!-- Select -->
+        <!-- <label>Priority</label>
+        <select v-model="newItemPriority">
+            <option value="low">Low</option>
+            <option value="high">High</option>
+        </select> -->
+
+
+        <!-- Radios -->
+        <!-- <strong>Priority</strong>
+        <label><input type="radio" v-model="newItemPriority" value="high">High</label>
+        <label><input type="radio" v-model="newItemPriority" value="low">Low</label> -->
+        <br>
+
+        <!-- {{newItem}} | {{newItemHighPriority}} -->
+
+
+
+
+        <!-- <br><br>
+        <label><input v-model="iceCreamFlavors" type="checkbox" value="vanilla">Vanilla</label>
+        <label><input v-model="iceCreamFlavors" type="checkbox" value="strawberry">Strawberry</label>
+        <label><input v-model="iceCreamFlavors" type="checkbox" value="chocolate">Chocolate</label> -->
+
+        <ul>
+            <li 
+                v-for="item in reversedItems" 
+                @click="togglePurchased(item)"
+                :key="item.id"
+                class="static-class"
+                :class="{strikeout: item.purchased, priority: item.highPriority}"
+                >
+                {{item.label}}
+            </li>
+        </ul>
+    </div>
+
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="app.js"></script>
+</body>
+</html>
